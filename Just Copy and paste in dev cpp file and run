@@ -1,0 +1,229 @@
+#include <iostream>
+#include <windows.h>
+#include <ctime>
+#include <string>
+using namespace std;
+
+void login();
+void deposit_milk();
+void menu();
+void meal();
+void loan();
+void about();
+
+const int PASSWORD = 3003; // Use constant for password
+const float FAT_RATE = 6.43; // Fat rate constant
+
+class Info {
+public:
+    string name; // Use string instead of char[]
+    int no, fat;
+    float milk;
+    string day;
+
+    void getdata() {
+        cout << "\nEnter Your Name (without spaces): ";
+        cin >> name;
+        cout << "Enter Your No.: ";
+        cin >> no;
+        cout << "Enter Morning OR Evening: ";
+        cin >> day;
+        cout << "Enter Milk in liters: ";
+        cin >> milk;
+        cout << "Enter Milk fat: ";
+        cin >> fat;
+    }
+
+    void putdata() const {
+        float fat_total = fat * FAT_RATE;
+        float total = fat_total * milk;
+        system("cls");
+        cout << "\n\tYOUR BILL-";
+        cout << "\n\t\t  ====================================";
+        cout << "\n\t\t|          Yadav Dairy and Milk Products           |" << endl;
+        cout << "\n\t\t  Name : " << name << "       No: " << no << endl;
+        cout << "\n\t\t  Milk session: " << day << endl;
+        cout << "\n\t\t  Milk : " << milk << " Litre"
+             << "      Fat: " << fat << endl;
+        cout << "\n\t\t| Fat rate: " << fat_total << "     Total: " << total << "rs  |";
+        cout << "\n\t\t  ====================================" << endl;
+    }
+};
+
+string user; // Use string for username
+int opt;
+
+int main() {
+    login();
+    menu();
+    return 0;
+}
+
+void login() {
+    int attempts = 0;
+    int pass;
+
+    while (attempts < 3) { // Allow 3 attempts
+        cout << "\n\n\t\t\t|--------------LOGIN----------------|" << endl;
+        cout << "\t\t\t Enter User_name: ";
+        cin >> user;
+        cout << "\t\t\t Enter Password [3003]: ";
+        cin >> pass;
+
+        if (pass == PASSWORD) {
+            system("cls");
+            cout << "\n\tSuccessfully logged in";
+            for (int i = 0; i < 10; i++) {
+                cout << ".";
+                Sleep(250);
+            }
+            Beep(523, 900);
+            return;
+        } else {
+            cout << "\nERROR.....! PLEASE CHECK YOUR PASSWORD.\n";
+            attempts++;
+        }
+    }
+
+    cout << "\nToo many failed attempts. Exiting...\n";
+    exit(0);
+}
+
+void deposit_milk() {
+    Info n;
+    int animal;
+    char back;
+
+    while (true) {
+        cout << "\nEnter your Milk animal NO. from below";
+        cout << "\n\n\t|1. BUFFALO |2. COW |\n";
+        cin >> animal;
+
+        if (animal == 1) {
+            cout << "\nYou chose 'BUFFALO' \n";
+            break;
+        } else if (animal == 2) {
+            cout << "\nYou chose 'COW' \n";
+            break;
+        } else {
+            cout << "\nError! Choose only option [1/2] .....\n";
+            Sleep(1500);
+            system("cls");
+        }
+    }
+
+    n.getdata();
+    n.putdata();
+
+    cout << "\nWant to go back to the Menu [y/n]- ";
+    cin >> back;
+
+    if (back == 'y' || back == 'Y') {
+        menu();
+    } else {
+        deposit_milk();
+    }
+}
+
+void menu() {
+    while (true) {
+        system("cls");
+
+        cout << "\n\n\t\tWelcome to Yadav Dairy and Milk Products [ " << user << " ]";
+        time_t my_time = time(NULL);
+        cout << "\t    DATE: " << ctime(&my_time);
+        cout << "\n\n1. Milk";
+        cout << "\n2. Animal MEAL";
+        cout << "\n3. Apply loan";
+        cout << "\n4. About our Dairy";
+        cout << "\n5. Logout";
+
+        cout << "\n\nEnter option: ";
+        cin >> opt;
+
+        switch (opt) {
+        case 1:
+            deposit_milk();
+            break;
+
+        case 2:
+            meal();
+            break;
+
+        case 3:
+            loan();
+            break;
+
+        case 4:
+            about();
+            break;
+
+        case 5:
+            cout << "\n\t\t\tThank you | Keep visiting";
+            exit(0);
+
+        default:
+            cout << "\nInvalid option. Please try again.\n";
+            Sleep(1500);
+        }
+    }
+}
+
+void meal() {
+    system("cls");
+    long int prod, how;
+    char go;
+    long int totalval;
+    cout << "\n\t\t\t-- OUR ANIMAL MEAL PRODUCTS --";
+    cout << "\n\t\t ============================================";
+    cout << "\n\t\t| 1. Mahalakshmi Animal MEAL        - 1100rs  |";
+    cout << "\n\t\t| 2. Mahalakshmi Bhusa              - 1000rs  |";
+    cout << "\n\t\t| 3. For growth in Milk-Products    - 350rs   |";
+    cout << "\n\t\t ============================================";
+
+    cout << "\n\n\t*Enter Any Above Option for buying Products: ";
+    cin >> prod;
+
+    cout << "\nHow many units do you want to buy? ";
+    cin >> how;
+
+    switch (prod) {
+    case 1:
+        totalval = how * 1100;
+        break;
+    case 2:
+        totalval = how * 1000;
+        break;
+    case 3:
+        totalval = how * 350;
+        break;
+    default:
+        cout << "\nInvalid option. Returning to menu.";
+        Sleep(1500);
+        menu();
+        return;
+    }
+
+    cout << "\nTotal Price: " << totalval << "rs";
+    cout << "\nWant to go back to the Menu [y/n]- ";
+    cin >> go;
+
+    if (go == 'y' || go == 'Y') {
+        menu();
+    }
+}
+
+void loan() {
+    system("cls");
+    cout << "\n\t-- Loan Feature Coming Soon --";
+    Sleep(1500);
+    menu();
+}
+
+void about() {
+    system("cls");
+    cout << "\n\t-- Welcome to Yadav Dairy and Milk Products --";
+    cout << "\n\tWe offer the best dairy services!";
+    Sleep(2000);
+    menu();
+}
